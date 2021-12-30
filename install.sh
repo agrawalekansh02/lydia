@@ -147,11 +147,11 @@ arch-chroot /mnt mkinitcpio -p linux
 # setting root password
 arch-chroot /mnt sudo -u root /bin/zsh -c 'echo "Insert root password: " && read root_password && echo -e "$root_password\n$root_password" | passwd root'
 
-# making user mrcz
-arch-chroot /mnt useradd -m -G wheel -s /bin/zsh mrcz
+# making user hexagon
+arch-chroot /mnt useradd -m -G wheel -s /bin/zsh hexagon
 
-# setting mrcz password
-arch-chroot /mnt sudo -u root /bin/zsh -c 'echo "Insert mrcz password: " && read mrcz_password && echo -e "$mrcz_password\n$mrcz_password" | passwd mrcz'
+# setting hexagon password
+arch-chroot /mnt sudo -u root /bin/zsh -c 'echo "Insert hexagon password: " && read hexagon_password && echo -e "$hexagon_password\n$hexagon_password" | passwd hexagon'
 
 # installing systemd-boot
 arch-chroot /mnt bootctl --path=/boot install
@@ -184,62 +184,62 @@ arch-chroot /mnt systemctl enable ufw.service
 arch-chroot /mnt systemctl enable systemd-resolved.service
 arch-chroot /mnt systemctl start systemd-resolved.service
 
-# making bspwm default for startx for both root and mrcz
+# making bspwm default for startx for both root and hexagon
 arch-chroot /mnt echo "exec bspwm" >> /mnt/root/.xinitrc
-arch-chroot /mnt echo "exec bspwm" >> /mnt/home/mrcz/.xinitrc
+arch-chroot /mnt echo "exec bspwm" >> /mnt/home/hexagon/.xinitrc
 
 # installing yay
-arch-chroot /mnt sudo -u mrcz git clone https://aur.archlinux.org/yay.git /home/mrcz/yay_tmp_install
-arch-chroot /mnt sudo -u mrcz /bin/zsh -c "cd /home/mrcz/yay_tmp_install && yes | makepkg -si"
-arch-chroot /mnt rm -rf /home/mrcz/yay_tmp_install
+arch-chroot /mnt sudo -u hexagon git clone https://aur.archlinux.org/yay.git /home/hexagon/yay_tmp_install
+arch-chroot /mnt sudo -u hexagon /bin/zsh -c "cd /home/hexagon/yay_tmp_install && yes | makepkg -si"
+arch-chroot /mnt rm -rf /home/hexagon/yay_tmp_install
 
 # adding makepkg optimizations
 arch-chroot /mnt sed -i -e 's/#MAKEFLAGS="-j2"/MAKEFLAGS=-j'$(nproc --ignore 1)'/' -e 's/-march=x86-64 -mtune=generic/-march=native/' -e 's/xz -c -z/xz -c -z -T '$(nproc --ignore 1)'/' /etc/makepkg.conf
 arch-chroot /mnt sed -i -e 's/!ccache/ccache/g' /etc/makepkg.conf
 
 # installing various packages from AUR
-arch-chroot /mnt sudo -u mrcz yay -S polybar --noconfirm
-arch-chroot /mnt sudo -u mrcz yay -S spotifyd spotify --noconfirm
-arch-chroot /mnt sudo -u mrcz yay -S corrupter-bin --noconfirm
-arch-chroot /mnt sudo -u mrcz yay -S visual-studio-code-bin --noconfirm
-arch-chroot /mnt sudo -u mrcz yay -S archtorify-git --noconfirm
-arch-chroot /mnt sudo -u mrcz yay -S greetd greetd-tuigreet --noconfirm
-arch-chroot /mnt sudo -u mrcz yay -S apple-fonts --noconfirm
-arch-chroot /mnt sudo -u mrcz yay -S picom-ibhagwan-git --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S polybar --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S spotifyd spotify --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S corrupter-bin --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S visual-studio-code-bin --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S archtorify-git --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S greetd greetd-tuigreet --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S apple-fonts --noconfirm
+arch-chroot /mnt sudo -u hexagon yay -S picom-ibhagwan-git --noconfirm
 
 # adding tuigreet to boot
 arch-chroot /mnt systemctl enable greetd.service
 
 # installing oh-my-zsh
-arch-chroot /mnt sudo -u mrcz /bin/zsh -c 'cd ~ && curl -O https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh && chmod +x install.sh && RUNZSH=no ./install.sh && rm ./install.sh'
+arch-chroot /mnt sudo -u hexagon /bin/zsh -c 'cd ~ && curl -O https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh && chmod +x install.sh && RUNZSH=no ./install.sh && rm ./install.sh'
 
 # installing vundle
-arch-chroot /mnt sudo -u mrcz mkdir -p /home/mrcz/.config/nvim/bundle
-arch-chroot /mnt sudo -u mrcz git clone https://github.com/VundleVim/Vundle.vim.git /home/mrcz/.config/nvim/bundle/Vundle.vim
+arch-chroot /mnt sudo -u hexagon mkdir -p /home/hexagon/.config/nvim/bundle
+arch-chroot /mnt sudo -u hexagon git clone https://github.com/VundleVim/Vundle.vim.git /home/hexagon/.config/nvim/bundle/Vundle.vim
 
 # installing fonts
-arch-chroot /mnt sudo -u mrcz mkdir /home/mrcz/fonts_tmp_folder
-arch-chroot /mnt sudo -u mrcz sudo mkdir /usr/share/fonts/OTF/
+arch-chroot /mnt sudo -u hexagon mkdir /home/hexagon/fonts_tmp_folder
+arch-chroot /mnt sudo -u hexagon sudo mkdir /usr/share/fonts/OTF/
 # material icons
-arch-chroot /mnt sudo -u mrcz /bin/zsh -c "cd /home/mrcz/fonts_tmp_folder && curl -o materialicons.zip https://github.com/google/material-design-icons/releases/download/3.0.1/material-design-icons-3.0.1.zip && unzip materialicons.zip"
-arch-chroot /mnt sudo -u mrcz /bin/zsh -c "sudo cp /home/mrcz/fonts_tmp_folder/material-design-icons-3.0.1/iconfont/MaterialIcons-Regular.ttf /usr/share/fonts/TTF/"
+arch-chroot /mnt sudo -u hexagon /bin/zsh -c "cd /home/hexagon/fonts_tmp_folder && curl -o materialicons.zip https://github.com/google/material-design-icons/releases/download/3.0.1/material-design-icons-3.0.1.zip && unzip materialicons.zip"
+arch-chroot /mnt sudo -u hexagon /bin/zsh -c "sudo cp /home/hexagon/fonts_tmp_folder/material-design-icons-3.0.1/iconfont/MaterialIcons-Regular.ttf /usr/share/fonts/TTF/"
 # removing fonts tmp folder
-arch-chroot /mnt sudo -u mrcz rm -rf /home/mrcz/fonts_tmp_folder
+arch-chroot /mnt sudo -u hexagon rm -rf /home/hexagon/fonts_tmp_folder
 
 # installing config files
-arch-chroot /mnt sudo -u mrcz mkdir /home/mrcz/GitHub
-arch-chroot /mnt sudo -u mrcz git clone https://github.com/ilbuonmarcio/lydia /home/mrcz/GitHub/lydia
-arch-chroot /mnt sudo -u mrcz /bin/zsh -c "chmod 700 /home/mrcz/GitHub/lydia/install_configs.sh"
-arch-chroot /mnt sudo -u mrcz /bin/zsh -c "cd /home/mrcz/GitHub/lydia && ./install_configs.sh"
-arch-chroot /mnt cp /home/mrcz/GitHub/lydia/greetd.config.toml /etc/greetd/config.toml
+arch-chroot /mnt sudo -u hexagon mkdir /home/hexagon/GitHub
+arch-chroot /mnt sudo -u hexagon git clonehttps://github.com/agrawalekansh02/lydia.git /home/hexagon/GitHub/lydia
+arch-chroot /mnt sudo -u hexagon /bin/zsh -c "chmod 700 /home/hexagon/GitHub/lydia/install_configs.sh"
+arch-chroot /mnt sudo -u hexagon /bin/zsh -c "cd /home/hexagon/GitHub/lydia && ./install_configs.sh"
+arch-chroot /mnt cp /home/hexagon/GitHub/lydia/greetd.config.toml /etc/greetd/config.toml
 
 # create folder for screenshots
-arch-chroot /mnt sudo -u mrcz mkdir /home/mrcz/Screenshots
+arch-chroot /mnt sudo -u hexagon mkdir /home/hexagon/Screenshots
 
 # create pictures folder, secrets folder and moving default wallpaper
-arch-chroot /mnt sudo -u mrcz mkdir /home/mrcz/Pictures/
-arch-chroot /mnt sudo -u mrcz mkdir /home/mrcz/.secrets/
-arch-chroot /mnt sudo -u mrcz mkdir /home/mrcz/Pictures/wallpapers/
+arch-chroot /mnt sudo -u hexagon mkdir /home/hexagon/Pictures/
+arch-chroot /mnt sudo -u hexagon mkdir /home/hexagon/.secrets/
+arch-chroot /mnt sudo -u hexagon mkdir /home/hexagon/Pictures/wallpapers/
 
 # enable features on /etc/pacman.conf file
 arch-chroot /mnt sed -i -e 's/#UseSyslog/UseSyslog/g' /etc/pacman.conf

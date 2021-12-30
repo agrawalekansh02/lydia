@@ -1,4 +1,4 @@
-export ZSH="/home/mrcz/.oh-my-zsh"
+export ZSH="/home/hexagon/.oh-my-zsh"
 
 ZSH_THEME="half-life"
 

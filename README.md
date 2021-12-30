@@ -25,7 +25,7 @@ But you're advised. :)
 - Inside this live environment you should now connect to the internet using either ethernet or wifi as you like (use `wifi-menu` or `nmcli` or as your preference), then download the latest script from this repository with the following command:
 
 ```bash
-curl -o install.sh https://raw.githubusercontent.com/ilbuonmarcio/lydia/master/install.sh
+curl -o install.sh https://raw.githubusercontent.com/agrawalekansh02/lydia/master/install.sh
 ```
 
 - Modify it to fit your own purposes (I suggest you to edit the partition mounts, change hostname, username, purge packages and features you don't need and so on, or do like [all these people](https://github.com/ilbuonmarcio/lydia/network/members) and fork this repository as a base for your own Arch Linux install script!
